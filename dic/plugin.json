@@ -1,0 +1,40 @@
+{
+  "pluginName": "请求头转换",
+  "version": "0.0.1",
+  "description": "请求头转换",
+  "author": "yintian",
+  "main": "index.html",
+  "preload": "preload.js",
+  "logo": "dic.png",
+  "pluginSetting": {
+    "single": true
+  },
+  "features": [
+    {
+      "code": "dic",
+      "explain": "dic",
+      "cmds": [
+        "headers",
+        "dic",
+        "d",
+        "had",
+        {
+        "type": "over",
+        "label": "Host"
+        },
+        {
+        "type": "over",
+        "label": "gent"
+        },
+        {
+        "type": "over",
+        "label": "Accept"
+        },
+        {
+        "type": "over",
+        "label": "Cookie"
+        }
+      ]
+    }
+  ]
+}
