@@ -1,10 +1,14 @@
 utools.onPluginEnter(({code, type, payload}) => {
+    console.log(111)
+    document.getElementById("input").value = ''
+    document.getElementById("result").innerHTML = ''
     document.getElementById("input").focus()
 });
 function isJsonString(str) {
     try {
-        if (typeof JSON.parse(str) == "object") {
-            console.log(JSON.parse(str))
+        let json = JSON.parse(str)
+        if (typeof json == "object" && JSON.stringify(json) !== '{}') {
+            // console.log(json)
             return true;
         }
     } catch(e) {
@@ -15,11 +19,11 @@ function highLight(json){
     json = json.toString()
     json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
     let res = json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
-        return strReplace(match)
+        return strReplaceJson(match)
     });
     return res.toString()
 }
-function strReplace(match) {
+function strReplaceJson(match) {
     var cls = 'number';
     if (/^"/.test(match)) {
         if (/:$/.test(match)) {
@@ -41,9 +45,11 @@ function str2dic(text) {
     if (!text) {
         text = input.innerHTML;
     }
+    text = text + '\n'
     let text_new = text.replace(/"/g, "\\\"")
         .replace(/(.*?):\s?(.*?)\n/g, '"$1": "$2",\n')
-    let text_new1 = '{\n' + text_new.substr(0, text_new.length - 2) + '\n}';
+    let last_comma = text_new.lastIndexOf(',')
+    let text_new1 = '{\n' + text_new.substr(0, last_comma) + '\n}';
     result.innerHTML = text_new1;
     if(isJsonString(text_new1)){
         // input.innerHTML = text_new1

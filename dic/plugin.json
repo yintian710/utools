@@ -11,29 +11,14 @@
   },
   "features": [
     {
-      "code": "dic",
-      "explain": "dic",
+      "code": "headers转换",
+      "explain": "headers转换",
       "cmds": [
         "headers",
         "dic",
         "d",
-        "had",
-        {
-        "type": "over",
-        "label": "Host"
-        },
-        {
-        "type": "over",
-        "label": "gent"
-        },
-        {
-        "type": "over",
-        "label": "Accept"
-        },
-        {
-        "type": "over",
-        "label": "Cookie"
-        }
+        "pd",
+        "had"
       ]
     }
   ]
