@@ -3,99 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="dic.css">
+    <script type="application/javascript" src="dic.js"></script>
 </head>
-<style>
-    #input,
-    #result {
-        position: fixed;
-        top: 0;
-        bottom: 0;
-        /*left: 0;*/
-        /*right: 0;*/
-        width: 50%;
-        white-space: pre-line;
-    }
-    #result {
-        /*top: 0;*/
-        /*bottom: 0;*/
-        /*left: 0;*/
-        right: 0;
-        /*background-color: orange;*/
-    }
-    #input {
-        /*top: 0;*/
-        /*bottom: 0;*/
-        left: 0;
-        /*right: 0;*/
-        /*background-color: green;*/
-    }
-    pre {outline: 1px solid #ccc; padding: 5px; margin: 5px; }
-    .string { color: green; }
-    .number { color: darkorange; }
-    .boolean { color: blue; }
-    .null { color: magenta; }
-    .key { color: red; }
-</style>
-<script>
-    utools.onPluginEnter(({code, type, payload}) => {
-        document.getElementById("input").focus()
-    });
-    function isJsonString(str) {
-        try {
-            if (typeof JSON.parse(str) == "object") {
-                console.log(JSON.parse(str))
-                return true;
-            }
-        } catch(e) {
-        }
-        return false;
-    }
-    function highLight(json){
-        json = json.toString()
-        json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-        return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
-            var cls = 'number';
-            if (/^"/.test(match)) {
-                if (/:$/.test(match)) {
-                    cls = 'key';
-                } else {
-                    cls = 'string';
-                }
-            } else if (/true|false/.test(match)) {
-                cls = 'boolean';
-            } else if (/null/.test(match)) {
-                cls = 'null';
-            }
-            return '<span class="' + cls + '">' + match + '</span>';
-        });
-    }
-    function str2dic(text) {
-        if (!text) {
-            text = document.getElementById("input").innerHTML;
-        }
-        let text_new = text.replace(/"/g, "\\\"")
-            .replace(/(.*?): (.*)/g, '"$1": "$2",')
-        let text_new1 = '{\n' + text_new.substr(0, text_new.length - 2) + '\n}';
-        let result = document.getElementById("result")
-        result.innerHTML = text_new1;
-        if(isJsonString(text_new1)){
-            // let a = highLight(result)
-            result.focus();
-            result.select();
-            document.execCommand('copy');
-        }
-        return text_new1
-    }
-    function go(e) {
-        let text = e.value
-        str2dic(text)
-    }
-</script>
 <body>
-<!--<label for="input"></label><textarea id="input" oninput="str2dic()"></textarea>-->
-<label for="input"></label><textarea id="input" oninput="go(this)"></textarea>
 <pre id="format-json">
-<label for="result"></label><textarea id="result"></textarea>
+<label for="input"></label><textarea id="input" oninput="go(this)"></textarea>
+<!--<label for="text"></label><input id="text" style="visibility:hidden"/>-->
+<div id="result" ><contentEditable contenteditable="true" ></contentEditable></div>
 </pre>
 </body>
 </html>
