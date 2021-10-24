@@ -4,13 +4,20 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" type="text/css" href="dic.css">
+    <link rel="stylesheet" type="text/css" href="tag.css">
+    <link rel="stylesheet" type="text/css" href="button.css">
     <script type="application/javascript" src="dic.js"></script>
+    <script type="application/javascript" src="event_detection.js"></script>
 </head>
 <body>
+<!--<nav class="tab">-->
+<!--  <a class="tab-item">Svelte API</a>-->
+<!--  <a class="tab-item active">Svelte API</a>-->
+<!--</nav>-->
 <pre id="format-json">
-<label for="input"></label><textarea id="input" oninput="go(this)"></textarea>
-<!--<label for="text"></label><input id="text" style="visibility:hidden"/>-->
-<div id="result" ><contentEditable contenteditable="true" ></contentEditable></div>
+<label for="input"></label><textarea id="input" onkeyup="logKey()"></textarea>
+<contentEditable id="result" contenteditable="true" ></contentEditable>
 </pre>
+<button id="prompt" onclick="help()">help</button>
 </body>
 </html>
