@@ -65,7 +65,7 @@ function str2dic(text) {
     let text_new1 = '{\n' + text_new.substr(0, last_comma) + '\n}';
     result.innerHTML = text_new1;
     if (isJsonString(text_new1)) {
-        // copy(text_new1)
+        copy(text_new1)
         let json = highLight(text_new1)
         json = json + '\n\n 已自动复制'
         result.innerHTML = json;
