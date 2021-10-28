@@ -1,8 +1,15 @@
-#prompt {
+#help {
     bottom: 5px;
     right: 5px;
     position: fixed;
 }
+#options{
+    bottom: 5px;
+    left: 5px;
+    position: fixed;
+}
+
+
 #menu{height: 900px;}
 #close{
     width:30px;

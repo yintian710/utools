@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href="button.css">
     <script type="application/javascript" src="dic.js"></script>
     <script type="application/javascript" src="event_detection.js"></script>
+    <script type="application/javascript" src="switch.js"></script>
 </head>
 <body>
 <!--<nav class="tab">-->
@@ -18,6 +19,13 @@
 <label for="input"></label><textarea id="input" onkeyup="logKey()"></textarea>
 <div id="result" contenteditable="true" style="overflow:auto;"></div>
 </pre>
-<button id="prompt" onclick="help()">help</button>
+<button id="help" onclick="help()">help</button>
+<div id="options">
+    <label for="select_language"></label>
+    <select id="select_language" onchange="select_language(this)">
+        <option value="python-dict">python-dict</option>
+        <option value="java-OkHttp">java-OkHttp</option>
+    </select>
+</div>
 </body>
 </html>

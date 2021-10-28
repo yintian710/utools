@@ -1,6 +1,9 @@
+utools.onPluginReady(() => {
+    console.log('插件装配完成，已准备好')
+})
 utools.onPluginEnter(({code, type, payload}) => {
     console.log(code, '---', type)
-    if (typeof (payload) === 'string' && payload.length > 20 ) {
+    if (typeof (payload) === 'string' && payload.length > 20) {
         document.getElementById("input").value = payload
         document.getElementById("input").focus()
         str2dic()
@@ -9,7 +12,38 @@ utools.onPluginEnter(({code, type, payload}) => {
         document.getElementById("result").innerHTML = ''
         document.getElementById("input").focus()
     }
+    changeSelect()
 });
+
+function changeSelect() {
+    let language = getStorage('language')
+    let select = document.getElementById('select_language')
+    let arr = select.getElementsByTagName('option')
+    for (let a of arr){
+        if(a.value === language){
+            a.selected = true
+        }
+    }
+}
+
+function getStorage(name) {
+    let dic = {
+        language: 'python-dict'
+    }
+    console.log('执行获取缓存操作')
+    if(!utools){
+        return dic[name]
+    }
+    return utools.dbStorage.getItem(name)
+}
+
+function setStorage(name, value) {
+    console.log('执行更新缓存操作')
+    if(!utools){
+        return true
+    }
+    return utools.dbStorage.setItem(name, value)
+}
 
 function isJsonString(str) {
     try {
@@ -21,34 +55,6 @@ function isJsonString(str) {
     } catch (e) {
     }
     return false;
-
-}
-
-function highLight(json) {
-    json = json.toString()
-    json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-    let res = json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
-        return strReplaceJson(match)
-    });
-    return res.toString()
-
-}
-
-function strReplaceJson(match) {
-    let cls = 'number';
-    if (/^"/.test(match)) {
-        if (/:$/.test(match)) {
-            cls = 'key';
-        } else {
-            cls = 'string';
-        }
-    } else if (/true|false/.test(match)) {
-        cls = 'boolean';
-    } else if (/null/.test(match)) {
-        cls = 'null';
-    }
-    let res = '<span class="' + cls + '">' + match + '</span>';
-    return res.toString()
 
 }
 
@@ -65,9 +71,12 @@ function str2dic(text) {
     let text_new1 = '{\n' + text_new.substr(0, last_comma) + '\n}';
     result.innerHTML = text_new1;
     if (isJsonString(text_new1)) {
-        copy(text_new1)
-        let json = highLight(text_new1)
-        json = json + '\n\n 已自动复制'
+        // let language = getStorage('language')
+
+        let one = javaOkHttp(text_new1)
+        // let json = highLight(text_new1)
+        let json
+        json = one[1] + '\n\n 已自动复制'
         result.innerHTML = json;
     }
     return text_new1
@@ -138,6 +147,12 @@ Sec-Fetch-Dest: empty"
     `
     window.alert(help_text);
 }
+
+
+function select_language(e) {
+    setStorage('language', e.value)
+}
+
 
 function openNew() {
     //获取页面的高度和宽度
