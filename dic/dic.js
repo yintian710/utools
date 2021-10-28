@@ -1,8 +1,14 @@
 utools.onPluginEnter(({code, type, payload}) => {
-    console.log(111)
-    document.getElementById("input").value = ''
-    document.getElementById("result").innerHTML = ''
-    document.getElementById("input").focus()
+    console.log(code, '---', type)
+    if (typeof (payload) === 'string' && payload.length > 20 ) {
+        document.getElementById("input").value = payload
+        document.getElementById("input").focus()
+        str2dic()
+    } else {
+        document.getElementById("input").value = ''
+        document.getElementById("result").innerHTML = ''
+        document.getElementById("input").focus()
+    }
 });
 
 function isJsonString(str) {
@@ -59,7 +65,7 @@ function str2dic(text) {
     let text_new1 = '{\n' + text_new.substr(0, last_comma) + '\n}';
     result.innerHTML = text_new1;
     if (isJsonString(text_new1)) {
-        copy(text_new1)
+        // copy(text_new1)
         let json = highLight(text_new1)
         json = json + '\n\n 已自动复制'
         result.innerHTML = json;
@@ -93,7 +99,7 @@ window.last_down = -1
 function logKey(event) {
     let e = event || window.event || arguments.callee.caller.arguments[0];
     console.log(e.keyCode === 13, '1', e)
-    if((e.ctrlKey && e.keyCode === 86) || (e.shiftKey && e.keyCode === 45)){
+    if ((e.ctrlKey && e.keyCode === 86) || (e.shiftKey && e.keyCode === 45)) {
         str2dic()
     }
     if (e && e.keyCode === 13) { // enter 键
@@ -105,7 +111,31 @@ function logKey(event) {
 }
 
 function help() {
-    let help_text = '我'
+    let help_text = `
+本工具为将网络请求头转换为各语言网络请求工具 headers
+目前仅支持将请求头转换为 Python 请求头 dict 格式
+支持 json 格式高亮
+使用ctrl + v 或者 shift + insert 直接粘贴文段可直接转换
+或者连续输入两次enter键亦可开启转换
+目前转换结果为json格式则会自动复制到剪切板
+输入文本格式样例：
+"Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: cors
+Sec-Fetch-Dest: empty"
+转换结果为：
+"{
+"Sec-Fetch-Site": "same-origin",
+"Sec-Fetch-Mode": "cors",
+"Sec-Fetch-Dest": "empty"
+}
+
+已自动复制"
+不符合匹配内容将自动忽略
+
+
+项目地址： https://github.com/yintian710/utools.git
+欢迎前往指导菜鸡
+    `
     window.alert(help_text);
 }
 
@@ -141,7 +171,7 @@ function openNew() {
         document.body.removeChild(oLogin);
         document.body.removeChild(oMask);
     };
-};
+}
 
 window.onload = function () {
     let oBtn = document.getElementById("btnLogin");

@@ -1,6 +1,6 @@
 {
   "pluginName": "请求头转换",
-  "version": "0.0.1",
+  "version": "0.4.0",
   "description": "请求头转换",
   "author": "yintian",
   "main": "index.html",
@@ -18,7 +18,13 @@
         "dic",
         "d",
         "pd",
-        "had"
+        "had",
+        {
+          "type": "regex",
+          "minLength": 1,
+          "match": "/Host|Accept|Referer|Content-Length|Connection/",
+          "label": "请求头转换"
+        }
       ]
     }
   ]
